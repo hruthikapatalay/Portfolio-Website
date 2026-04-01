@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hruthika Patalay — AI/ML Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --blush: #f2e8e0;
+    --rose: #d9b8a8;
+    --mauve: #b08a82;
+    --dusty: #8a6e6a;
+    --deep: #3d2b2b;
+    --sage: #c8d5c0;
+    --sage-dark: #8fa88a;
+    --sky: #c8d8e8;
+    --text: #3d2b2b;
+    --muted: #8a7a78;
+    --accent: #c4785e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(250,247,242,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(209,184,168,0.3);
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 500;
+    color: var(--deep); letter-spacing: 0.04em;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,213,192,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -60px; left: -60px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,232,224,0.6) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem;
+    opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.05; color: var(--deep);
+    opacity: 0; animation: fadeUp 0.9s 0.25s forwards;
+  }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); font-weight: 300;
+    margin-top: 1.4rem; max-width: 520px; line-height: 1.7;
+    opacity: 0; animation: fadeUp 0.9s 0.45s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; margin-top: 2.8rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+  }
+  .btn {
+    padding: 0.75rem 1.8rem; border-radius: 100px;
+    font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s; cursor: pointer; border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--deep); color: var(--cream); }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--deep); border: 1.5px solid var(--rose); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); display: flex; align-items: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 1s 1s forwards;
+  }
+  .hero-scroll::before { content: ''; display: block; width: 32px; height: 1px; background: var(--rose); }
+
+  section { padding: 6rem 4rem; }
+  .section-header { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 3.5rem; }
+  .section-num { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--deep); }
+  .section-line { flex: 1; height: 1px; background: var(--rose); opacity: 0.5; max-width: 200px; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { font-size: 1rem; line-height: 1.85; color: var(--muted); margin-bottom: 1.2rem; }
+  .about-text p strong { color: var(--deep); font-weight: 500; }
+  .about-meta { display: flex; flex-direction: column; gap: 1rem; }
+  .meta-item { background: var(--blush); border-radius: 12px; padding: 1.2rem 1.5rem; border-left: 3px solid var(--rose); }
+  .meta-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.3rem; }
+  .meta-value { font-size: 0.92rem; color: var(--deep); font-weight: 500; }
+
+  .skills-section { background: var(--blush); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-card {
+    background: var(--cream); border-radius: 16px; padding: 1.8rem;
+    border: 1px solid rgba(209,184,168,0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(176,138,130,0.15); }
+  .skill-card-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .skill-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 500; color: var(--deep); margin-bottom: 0.8rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag { font-size: 0.72rem; padding: 0.28rem 0.75rem; border-radius: 100px; background: var(--blush); color: var(--dusty); letter-spacing: 0.05em; border: 1px solid rgba(209,184,168,0.5); }
+  .tag.accent { background: rgba(196,120,94,0.1); color: var(--accent); border-color: rgba(196,120,94,0.3); }
+
+  .projects-list { display: flex; flex-direction: column; gap: 2rem; }
+  .project-card {
+    background: white; border-radius: 20px; padding: 2.2rem 2.5rem;
+    border: 1px solid rgba(209,184,168,0.3);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 1.5rem; align-items: start;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--rose); transition: background 0.3s;
+  }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(176,138,130,0.12); }
+  .project-card:hover::before { background: var(--accent); }
+  .project-badge {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: rgba(196,120,94,0.1); color: var(--accent);
+    border: 1px solid rgba(196,120,94,0.3); border-radius: 100px;
+    padding: 0.2rem 0.7rem; margin-bottom: 0.7rem;
+  }
+  .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; color: var(--deep); margin-bottom: 0.6rem; }
+  .project-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+  .project-metrics { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+  .metric { font-size: 0.75rem; font-weight: 500; color: var(--deep); background: var(--sage); padding: 0.25rem 0.8rem; border-radius: 100px; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-link {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none; white-space: nowrap; padding-top: 0.2rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.7rem; }
+
+  .exp-section { background: var(--blush); }
+  .exp-card {
+    background: var(--cream); border-radius: 16px; padding: 2rem 2.5rem;
+    border: 1px solid rgba(209,184,168,0.3);
+    display: grid; grid-template-columns: 1fr 180px; gap: 2rem;
+  }
+  .exp-role { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; color: var(--deep); margin-bottom: 0.3rem; }
+  .exp-org { font-size: 0.85rem; color: var(--accent); margin-bottom: 1rem; font-weight: 500; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li { font-size: 0.88rem; color: var(--muted); line-height: 1.75; padding: 0.35rem 0; padding-left: 1rem; position: relative; }
+  .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--rose); }
+  .exp-date { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mauve); text-align: right; padding-top: 0.3rem; }
+
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .edu-card { background: white; border-radius: 16px; padding: 1.8rem 2rem; border: 1px solid rgba(209,184,168,0.3); }
+  .edu-degree { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 500; color: var(--deep); margin-bottom: 0.3rem; }
+  .edu-school { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .edu-year { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); }
+  .edu-cgpa { display: inline-block; margin-top: 0.8rem; font-size: 0.8rem; font-weight: 500; color: var(--deep); background: rgba(200,213,192,0.5); padding: 0.2rem 0.8rem; border-radius: 100px; }
+  .edu-subjects { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; font-style: italic; }
+
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .cert-card { background: var(--blush); border-radius: 12px; padding: 1.2rem 1.5rem; border: 1px solid rgba(209,184,168,0.3); display: flex; align-items: center; gap: 1rem; }
+  .cert-icon { font-size: 1.4rem; }
+  .cert-name { font-size: 0.88rem; font-weight: 500; color: var(--deep); }
+  .cert-org { font-size: 0.75rem; color: var(--muted); }
+
+  .contact-section { background: var(--deep); }
+  .contact-section .section-title { color: var(--cream); }
+  .contact-section .section-num { color: var(--rose); }
+  .contact-section .section-line { background: var(--mauve); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-intro { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--cream); line-height: 1.5; }
+  .contact-intro em { font-style: italic; color: var(--rose); }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 0; }
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.4rem; border-radius: 12px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none; transition: all 0.3s;
+  }
+  .contact-item:hover { background: rgba(255,255,255,0.1); border-color: var(--rose); }
+  .contact-icon { font-size: 1.2rem; }
+  .contact-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--mauve); }
+  .contact-value { font-size: 0.9rem; color: var(--cream); }
+
+  footer { background: var(--deep); border-top: 1px solid rgba(255,255,255,0.06); padding: 1.5rem 4rem; text-align: center; font-size: 0.75rem; color: var(--mauve); letter-spacing: 0.08em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .about-grid, .edu-grid, .contact-grid { grid-template-columns: 1fr; }
+    .exp-card { grid-template-columns: 1fr; }
+    .project-card { grid-template-columns: 1fr; }
+    .hero-scroll { left: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Hruthika Patalay</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <p class="hero-tag">AI · ML · Data Science · Computer Science</p>
+  <h1 class="hero-name">Hruthika<br/><em>Patalay</em></h1>
+  <p class="hero-sub">Computer Science undergraduate building end-to-end ML solutions across healthcare and finance — strong in EDA, preprocessing, and making data usable before a model is ever trained.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+  <span class="hero-scroll">Scroll to explore</span>
+</section>
+
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a second-year Computer Science undergraduate at Stanley College of Engineering and Technology for Women, Hyderabad, with a focus on <strong>AI/ML and Data Science</strong>.</p>
+      <p>I build end-to-end machine learning solutions — from messy raw data to deployed Streamlit apps. My strongest suit is <strong>exploratory data analysis and preprocessing</strong>: handling imbalanced datasets, feature engineering, and making data genuinely usable before a model ever touches it.</p>
+      <p>I've worked across healthcare and finance domains, including a <strong>hackathon-winning fraud detection system</strong>, and I'm actively building toward a career at the intersection of data and impact.</p>
+    </div>
+    <div class="about-meta reveal">
+      <div class="meta-item">
+        <p class="meta-label">Currently Seeking</p>
+        <p class="meta-value">AI/ML & Data Science Internships</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Education</p>
+        <p class="meta-value">B.E. Computer Science · 4th Semester</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">CGPA</p>
+        <p class="meta-value">8.4 / 10</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Location</p>
+        <p class="meta-value">Hyderabad, India</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Core Strength</p>
+        <p class="meta-value">EDA · Preprocessing · Feature Engineering</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="skills-section">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🐍</div>
+      <p class="skill-card-title">Programming</p>
+      <div class="skill-tags">
+        <span class="tag accent">Python</span>
+        <span class="tag">Java</span>
+        <span class="tag">C</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🤖</div>
+      <p class="skill-card-title">Machine Learning & DS</p>
+      <div class="skill-tags">
+        <span class="tag accent">Scikit-learn</span>
+        <span class="tag accent">XGBoost</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">SMOTE</span>
+        <span class="tag">Classification</span>
+        <span class="tag">Regression</span>
+        <span class="tag">EDA</span>
+        <span class="tag">Feature Engineering</span>
+        <span class="tag">Model Evaluation</span>
+        <span class="tag">Cross-Validation</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📊</div>
+      <p class="skill-card-title">Libraries & Visualization</p>
+      <div class="skill-tags">
+        <span class="tag accent">Pandas</span>
+        <span class="tag accent">NumPy</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">Seaborn</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">MS Excel</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🛠️</div>
+      <p class="skill-card-title">Deployment & Tools</p>
+      <div class="skill-tags">
+        <span class="tag accent">Streamlit</span>
+        <span class="tag">Jupyter Notebook</span>
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💡</div>
+      <p class="skill-card-title">CS Fundamentals</p>
+      <div class="skill-tags">
+        <span class="tag">DSA</span>
+        <span class="tag">OOP</span>
+        <span class="tag">Operating Systems</span>
+        <span class="tag">DBMS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-list">
+    <div class="project-card reveal">
+      <div>
+        <span class="project-badge">🏆 GEN-AI FORGE Hackathon 2026 — 1st Runner-Up</span>
+        <h3 class="project-title">AI-Powered Insurance Fraud Detection</h3>
+        <p class="project-desc">Tackled a real-world imbalanced fraud dataset where standard accuracy was misleading — surface-level metrics hid near-zero detection of actual fraud cases, making recall the metric that mattered. Ran EDA to uncover claim patterns tied to fraud, applied SMOTE to fix class imbalance, and stress-tested its impact by benchmarking models before and after resampling across XGBoost and Random Forest. Shipped a real-time Streamlit app with feature-importance visualizations so predictions weren't a black box.</p>
+        <div class="project-metrics">
+          <span class="metric">ROC-AUC 0.85</span>
+          <span class="metric">Recall 0.61</span>
+          <span class="metric">F1 0.59</span>
+        </div>
+        <div class="project-stack">
+          <span class="tag">XGBoost</span><span class="tag">SMOTE</span><span class="tag">Streamlit</span><span class="tag">Random Forest</span><span class="tag">EDA</span>
+        </div>
+      </div>
+      <a href="https://github.com/hruthikapatalay/Insurance-Fraud-Detection.git" class="project-link">GitHub →</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <span class="project-badge">Classification & Deployment</span>
+        <h3 class="project-title">Vitamin Deficiency Disease Detection</h3>
+        <p class="project-desc">Took on a complex 34-feature clinical dataset (4000+ entries) predicting 5 deficiency conditions — the core challenge being severe imbalance across all classes, not just a binary split. Built full preprocessing pipelines covering missing values, encoding, and SMOTE; drove EDA with correlation heatmaps and class distribution analysis; trained and compared multiple classifiers with per-class feature importance breakdowns. Wrapped the model into an interactive Streamlit app for real-time clinical use.</p>
+        <div class="project-metrics">
+          <span class="metric">96.6% Accuracy</span>
+          <span class="metric">Weighted F1: 0.97</span>
+          <span class="metric">5 Classes</span>
+          <span class="metric">4000+ Entries</span>
+        </div>
+        <div class="project-stack">
+          <span class="tag">Random Forest</span><span class="tag">SMOTE</span><span class="tag">Streamlit</span><span class="tag">Scikit-learn</span><span class="tag">Seaborn</span>
+        </div>
+      </div>
+      <a href="https://github.com/hruthikapatalay/Vitamin-Deficiency-Disease-app.git" class="project-link">GitHub →</a>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <span class="project-badge">Healthcare · Analysis & Prediction</span>
+        <h3 class="project-title">Heart Disease Analysis & Prediction</h3>
+        <p class="project-desc">Analyzed a clinical heart disease dataset across multiple physiological markers, dissecting which features genuinely drive cardiac risk and benchmarking linear vs. tree-based models on structured medical data. Performed data cleaning, feature engineering, encoding, and extensive EDA with correlation heatmaps, distribution plots, and boxplots analyzing both positive correlations (ST depression, vessel blockage, Thalium stress test) and negative correlations (maximum heart rate) with disease risk. Trained and compared 5 models; Ridge Classifier achieved best performance at 92.6%, demonstrating linear models can outperform tree-based approaches on structured clinical data.</p>
+        <div class="project-metrics">
+          <span class="metric">92.6% Accuracy</span>
+          <span class="metric">Ridge &gt; Random Forest</span>
+          <span class="metric">5 Models Compared</span>
+        </div>
+        <div class="project-stack">
+          <span class="tag">Ridge Classifier</span><span class="tag">Logistic Regression</span><span class="tag">Lasso</span><span class="tag">Decision Tree</span><span class="tag">EDA</span>
+        </div>
+      </div>
+      <a href="https://github.com/hruthikapatalay/Heart-Disease-Risk-Analysis-Using-Exploratory-Data-Analysis.git" class="project-link">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="exp-section">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-card reveal">
+    <div>
+      <p class="exp-role">Documentation Manager & Creative Head</p>
+      <p class="exp-org">ACM – SCETW (Student Chapter)</p>
+      <ul class="exp-bullets">
+        <li>Conceptualized and produced reels, posters, and visual content for ACM-SCETW events, blending storytelling with design to boost turnout and social media traction.</li>
+        <li>Managed and maintained the official ACM-SCETW website, implementing web updates and coordinating digital content for the student chapter.</li>
+        <li>Built and maintained the documentation backbone of the chapter, organizing records and assets so nothing got lost across teams and event cycles.</li>
+      </ul>
+    </div>
+    <p class="exp-date">Nov 2024 – Nov 2025</p>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <p class="edu-degree">B.E. in Computer Science</p>
+      <p class="edu-school">Stanley College of Engineering and Technology for Women, Hyderabad</p>
+      <p class="edu-year">2024 – Present</p>
+      <p class="edu-subjects">Operating Systems · Database Management System · Computer Organisation</p>
+      <span class="edu-cgpa">CGPA: 8.4 / 10</span>
+    </div>
+    <div class="edu-card reveal">
+      <p class="edu-degree">Intermediate — MPC</p>
+      <p class="edu-school">Keshav Smarak Junior College (TSBIE), Hyderabad</p>
+      <p class="edu-year">2022 – 2024</p>
+      <div style="margin-top:1.4rem; padding-top:1.2rem; border-top: 1px solid rgba(209,184,168,0.3);">
+        <p class="edu-degree">SSC</p>
+        <p class="edu-school">Little Flower High School, Hyderabad</p>
+        <p class="edu-year">2022</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="section-header reveal" style="margin-bottom:1.5rem;">
+      <span class="section-num" style="font-size:0.75rem;">05.1</span>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--deep);">Certifications</h3>
+      <div class="section-line"></div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <span class="cert-icon">🎓</span>
+        <div>
+          <p class="cert-name">AI Workshop</p>
+          <p class="cert-org">IIT Hyderabad · April 2025</p>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <span class="cert-icon">🏅</span>
+        <div>
+          <p class="cert-name">AI Course</p>
+          <p class="cert-org">Shivaji Maharaj Foundation · August 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="reveal">
+      <p class="contact-intro">Open to <em>AI/ML internships</em>, collaborations, and interesting conversations about data.</p>
+    </div>
+    <div class="contact-links reveal">
+      <a href="mailto:hruthikapatalay4@gmail.com" class="contact-item">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <p class="contact-label">Email</p>
+          <p class="contact-value">hruthikapatalay4@gmail.com</p>
+        </div>
+      </a>
+      <a href="tel:+919494909415" class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <p class="contact-label">Phone</p>
+          <p class="contact-value">+91 9494909415</p>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/hruthika-patalay-1991ab31b" class="contact-item" id="linkedin-link">
+        <span class="contact-icon">💼</span>
+        <div>
+          <p class="contact-label">LinkedIn</p>
+          <p class="contact-value" style="color:var(--rose);font-style:italic;font-size:0.8rem;">https://www.linkedin.com/in/hruthika-patalay-1991ab31b</p>
+        </div>
+      </a>
+      <a href="https://github.com/hruthikapatalay" class="contact-item" id="github-link">
+        <span class="contact-icon">🐙</span>
+        <div>
+          <p class="contact-label">GitHub</p>
+          <p class="contact-value" style="color:var(--rose);font-style:italic;font-size:0.8rem;">https://github.com/hruthikapatalay</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Hruthika Patalay · Hyderabad, India</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
